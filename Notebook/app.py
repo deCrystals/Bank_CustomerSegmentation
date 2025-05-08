@@ -102,21 +102,22 @@ elif page == "📊 Customer Segments":
 
         # Top 10 customer locations
     loc_df = (
-    segment_data['CustLocation']
-    .value_counts()
-    .nlargest(10)
-    .reset_index()
-    .rename(columns={'index': 'CustLocation', 'CustLocation': 'count'})
-    )
+        segment_data['CustLocation']
+        .value_counts()
+        .nlargest(10)
+        .reset_index()
+        )
+    loc_df.columns=['CustLocation', 'Custcount']
+    
         # 
     oc_fig = px.bar(
-    loc_df,
-    x='CustLocation',
-    y='count',
-    color='CustLocation',
-    color_continuous_scale='plasma',
-    labels={'CustLocation': 'Location', 'count': 'Customer Count'},
-    title="Top 10 Customer Locations"
+        loc_df,
+        x='CustLocation',
+        y='Custcount',
+        color='CustLocation',
+        color_continuous_scale='plasma',
+        labels={'CustLocation': 'Location', 'Custcount': 'Customer Count'},
+        title="Top 10 Customer Locations"
         )
 
     st.plotly_chart(oc_fig, use_container_width=True)
@@ -124,10 +125,10 @@ elif page == "📊 Customer Segments":
     
       #Top 10 Customers
     top_customers = (
-    segment_data[segment_data['Segment'] == selected_segment]
-    .sort_values(by='Monetary', ascending=False)
-    .head(10)
-    )
+        segment_data[segment_data['Segment'] == selected_segment]
+        .sort_values(by='Monetary', ascending=False)
+        .head(10)
+        )
 
     st.write(f"Top 10 Customers in '{selected_segment}' Segment")
     st.dataframe(top_customers[['CustomerID', 'Monetary', 'Frequency', 'Recency', 'CustomerAge']].reset_index(drop=True))
@@ -221,22 +222,22 @@ elif page == "📈 Customer Clusters":
         
     # Top 10 customer locations
     loc_df = (
-    cluster_data['CustLocation']
-    .value_counts()
-    .nlargest(10)
-    .reset_index()
-    .rename(columns={'index': 'CustLocation', 'CustLocation': 'count'})
-    )
+        cluster_data['CustLocation']
+        .value_counts()
+        .nlargest(10)
+        .reset_index())
 
+    loc_df.columns = ['CustLocation', 'CustCount']
+    
     loc_fig = px.bar(
-    loc_df,
-    x='CustLocation',
-    y='count',
-    color='CustLocation',
-    color_continuous_scale='plasma',
-    labels={'CustLocation': 'Location', 'count': 'Customer Count'},
-    title="Top 10 Customer Locations"
-    )
+        loc_df,
+        x='CustLocation',
+        y='CustCount',
+        color='CustLocation',
+        color_continuous_scale='plasma',
+        labels={'CustLocation': 'Location', 'CustCount': 'Customer Count'},
+        title="Top 10 Customer Locations"
+        )
 
     st.plotly_chart(loc_fig, use_container_width=True)
 
