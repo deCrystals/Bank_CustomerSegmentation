@@ -100,21 +100,29 @@ elif page == "📊 Customer Segments":
         st.plotly_chart(age_fig, use_container_width=True)
 
 
-    # Top 10 customer locations
-    loc_fig = px.bar(
-    segment_data['CustLocation'].value_counts().nlargest(10).reset_index(),
-    x='index',
-    y='CustLocation',
+        # Top 10 customer locations
+    loc_df = (
+    segment_data['CustLocation']
+    .value_counts()
+    .nlargest(10)
+    .reset_index()
+    .rename(columns={'index': 'CustLocation', 'CustLocation': 'count'})
+    )
+        # 
+    oc_fig = px.bar(
+    loc_df,
+    x='CustLocation',
+    y='count',
     color='CustLocation',
     color_continuous_scale='plasma',
-    labels={'index': 'Location', 'CustLocation': 'Customer Count'},
+    labels={'CustLocation': 'Location', 'count': 'Customer Count'},
     title="Top 10 Customer Locations"
-    )
-    st.plotly_chart(loc_fig, use_container_width=True)
-        # Monetary summary
-    #st.markdown("#### Summary Statistics")
-    #st.dataframe(segment_data[['Recency', 'Frequency', 'Monetary', 'CustAccountBalance']].describe())
-    # Top Customers
+        )
+
+    st.plotly_chart(oc_fig, use_container_width=True)
+
+    
+      #Top 10 Customers
     top_customers = (
     segment_data[segment_data['Segment'] == selected_segment]
     .sort_values(by='Monetary', ascending=False)
@@ -212,16 +220,26 @@ elif page == "📈 Customer Clusters":
 
         
     # Top 10 customer locations
+    loc_df = (
+    cluster_data['CustLocation']
+    .value_counts()
+    .nlargest(10)
+    .reset_index()
+    .rename(columns={'index': 'CustLocation', 'CustLocation': 'count'})
+    )
+
     loc_fig = px.bar(
-        cluster_data['CustLocation'].value_counts().nlargest(10).reset_index(),
-        x='index',
-        y='CustLocation',
-        color='CustLocation',
-        color_continuous_scale='plasma',
-        labels={'index': 'Location', 'CustLocation': 'Customer Count'},
-        title="Top 10 Customer Locations"
-        )
+    loc_df,
+    x='CustLocation',
+    y='count',
+    color='CustLocation',
+    color_continuous_scale='plasma',
+    labels={'CustLocation': 'Location', 'count': 'Customer Count'},
+    title="Top 10 Customer Locations"
+    )
+
     st.plotly_chart(loc_fig, use_container_width=True)
+
     # Monetary summary
     st.markdown("#### Summary Statistics")
     st.dataframe(cluster_data[['Recency', 'Frequency', 'Monetary', 'CustAccountBalance']].describe())
