@@ -1,0 +1,41 @@
+# Ignore Python bytecode and cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Ignore Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore virtual environment folders
+.env
+.venv
+env/
+venv/
+
+# VS Code settings
+.vscode/
+
+# MacOS system files
+.DS_Store
+
+# Streamlit configuration and secrets
+.streamlit/config.toml
+.streamlit/secrets.toml
+
+# Logs
+*.log
+
+# Ignore data files (optional – remove if you want to track them)
+data/
+*.csv
+*.xlsx
+*.json
+
+# Ignore model files or large binary outputs (optional)
+models/
+outputs/
+
+# Ignore coverage reports or pytest cache
+htmlcov/
+.coverage
+.pytest_cache/
