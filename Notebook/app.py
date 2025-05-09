@@ -6,7 +6,7 @@ import os
 
 
 # Load pre-segmented data
-df= pd.read_csv('../Dataset/bank.csv')
+df= pd.read_csv('bank.csv')
 # Sidebar Navigation
 page = st.sidebar.radio("📂 Navigation", ["🏠 Home", "📊 Customer Segments", "📈 Customer Clusters", "👤 Customer Profile"])
 
