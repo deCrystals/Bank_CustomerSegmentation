@@ -9,7 +9,7 @@ from segmentation import segment_customer
 
 print("Loading Data..........")
 
-df = preprocess('../Data/bank_data_C.csv')
+df = preprocess('/Data/bank_data_C.csv')
 
 print("Data loaded successfully")
 
@@ -41,7 +41,7 @@ print(f' The Cluster Scores : \n {cluster_scores}')
 
 print("Clustering Completed Sucessfully")
 
-rfm.to_csv('../Data/segmented_customer.csv')
+rfm.to_csv('/Data/segmented_customer.csv')
 
 print("Segmented customer data saved to 'Data/segmented_customers.csv")
 
