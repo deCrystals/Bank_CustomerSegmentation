@@ -5,6 +5,7 @@ import os
 
 
 # Load pre-segmented data
+<<<<<<< HEAD
 df = pd.read_csv("../Data/segmented_customer.csv")
 
 # Get the directory where the current script is located
@@ -45,6 +46,9 @@ except FileNotFoundError:
         st.write(files)
     except Exception as e:
         st.write(f"Error listing parent directory: {e}")
+=======
+df = pd.read_csv('/Data/segmented_customer.csv')
+>>>>>>> 509d82d13d425bf6b4e5eef047b5c9bd8d559fdb
 
 # Sidebar Navigation
 page = st.sidebar.radio("📂 Navigation", ["🏠 Home", "📊 Customer Segments", "📈 Customer Clusters", "👤 Customer Profile"])
