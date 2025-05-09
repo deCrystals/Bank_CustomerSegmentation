@@ -198,7 +198,7 @@ elif page == "📈 Customer Clusters":
     selected_cluster = st.sidebar.selectbox("Select Cluster", clusters)
     #Filter for Cluster Data
     cluster_data =df[df['Cluster'] == selected_cluster]
-    st.subheader(f"Cluster: {selected_cluster}")
+    #st.subheader(f"Cluster: {selected_cluster}")
     # Display header with cluster name
     st.subheader(f"Cluster {selected_cluster}: {cluster_name.get(selected_cluster, 'Unknown')} Customers")
 
