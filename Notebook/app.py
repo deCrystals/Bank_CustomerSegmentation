@@ -4,10 +4,10 @@ import plotly.express as px
 
 
 # Load pre-segmented data
-df = pd.read_csv("Data/segmented_customer.csv")
+df = pd.read_csv("/Data/segmented_customer.csv")
 
 # Sidebar Navigation
-page = st.sidebar.radio("📂 Navigation", ["🏠 Home", "📊 Customer Segments", "📈 Customer Clusters"])
+page = st.sidebar.radio("📂 Navigation", ["🏠 Home", "📊 Customer Segments", "📈 Customer Clusters", "👤 Customer Profile"])
 
 total_customers = df['CustomerID'].nunique()
 avg_trxn = df['Monetary'].mean()
@@ -18,8 +18,8 @@ segments = sorted(df['Segment'].unique())
 cluster_name = {
     0: "Potential",
     1: "At risk",
-    2: "Loyal",
-    3: "High Value"
+    2: "High Value",
+    3: "Loyal"
 }
 # --- Home Page ---
 if page == "🏠 Home":
@@ -259,4 +259,45 @@ elif page == "📈 Customer Clusters":
     # Monetary summary
     st.markdown("#### Summary Statistics")
     st.dataframe(cluster_data[['Recency', 'Frequency', 'Monetary', 'CustAccountBalance']].describe())
-    
+        #   Top 10 Customers
+    with st.expander("🔍 View Top 10 Customers in this Segment", expanded=False):  
+        top_customers = (
+            cluster_data[cluster_data['Cluster'] == selected_cluster]
+            .sort_values(by='Monetary', ascending=False)
+            .head(10)
+            )
+
+        st.write(f"Top 10 Customers in '{selected_cluster}' Segment")
+        st.dataframe(top_customers[['CustomerID', 'Monetary', 'Frequency', 'Recency', 'CustomerAge']].reset_index(drop=True))
+
+elif page == "👤 Customer Profile":
+    st.title("📊 Customer Profile Lookup")   
+    customer_id_input = st.text_input("Enter Customer ID")
+    st.write("For example C1010011")
+    if customer_id_input:
+        if customer_id_input in df["CustomerID"].astype(str).values:
+            cust_profile = df[df["CustomerID"].astype(str) == customer_id_input].squeeze()
+            st.subheader(f"Customer Profile: {cust_profile['CustomerID']}")
+                        # Format Monetary with commas for readability
+                #monetary_value = f"{cust_profile['Monetary']:,.0f}" if pd.notnull(cust_profile['Monetary']) else "N/A"
+
+                # Format values into a table
+            profile_data = {
+                "Metric": ["Recency (days)", "Frequency", "Monetary (INR)", "Location", "Gender", "Age", "Account Balance", "Segment"],
+                "Value": [
+                        cust_profile.get("Recency", "N/A"),
+                        cust_profile.get("Frequency", "N/A"),
+                        cust_profile.get("Monetary","N/A"),
+                        cust_profile.get("CustLocation", "N/A"),
+                        cust_profile.get("CustGender", "N/A"),
+                        cust_profile.get("CustomerAge", "N/A"), 
+                        cust_profile.get("CustAccountBalance", "N/A"),
+                        cust_profile.get("Segment", "N/A") 
+                        ]
+            }
+            profile_df = pd.DataFrame(profile_data)
+
+            st.table(profile_df)
+            
+        else:
+            st.warning("Customer ID not found.")
