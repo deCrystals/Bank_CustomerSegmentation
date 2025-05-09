@@ -4,7 +4,7 @@ import plotly.express as px
 
 
 # Load pre-segmented data
-df = pd.read_csv("/Data/segmented_customer.csv")
+df = pd.read_csv("../Data/segmented_customer.csv")
 
 # Sidebar Navigation
 page = st.sidebar.radio("📂 Navigation", ["🏠 Home", "📊 Customer Segments", "📈 Customer Clusters", "👤 Customer Profile"])
