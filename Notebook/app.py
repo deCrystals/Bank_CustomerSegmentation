@@ -4,7 +4,7 @@ import plotly.express as px
 
 
 # Load pre-segmented data
-df = pd.read_csv("Data/segmented_customer.csv")
+df = pd.read_csv("../Data/segmented_customer.csv")
 
 # Sidebar Navigation
 page = st.sidebar.radio("📂 Navigation", ["🏠 Home", "📊 Customer Segments", "📈 Customer Clusters"])
@@ -15,6 +15,12 @@ avg_balance = df['CustAccountBalance'].mean()
 avg_age = df['CustomerAge'].mean()
 segments = sorted(df['Segment'].unique())
 
+cluster_name = {
+    0: "Potential",
+    1: "At risk",
+    2: "Loyal",
+    3: "High Value"
+}
 # --- Home Page ---
 if page == "🏠 Home":
     st.title("🏠 Welcome to the Customer Insights Dashboard ")
@@ -121,17 +127,23 @@ elif page == "📊 Customer Segments":
         )
 
     st.plotly_chart(oc_fig, use_container_width=True)
+    
+   
+    # Monetary summary
+    st.markdown("#### Summary Statistics")
+    st.dataframe(segment_data[['Recency', 'Frequency', 'Monetary', 'CustAccountBalance']].describe())
 
     
       #Top 10 Customers
-    top_customers = (
-        segment_data[segment_data['Segment'] == selected_segment]
-        .sort_values(by='Monetary', ascending=False)
-        .head(10)
-        )
+    with st.expander("🔍 View Top 10 Customers in this Segment", expanded=False):  
+        top_customers = (
+            segment_data[segment_data['Segment'] == selected_segment]
+            .sort_values(by='Monetary', ascending=False)
+            .head(10)
+            )
 
-    st.write(f"Top 10 Customers in '{selected_segment}' Segment")
-    st.dataframe(top_customers[['CustomerID', 'Monetary', 'Frequency', 'Recency', 'CustomerAge']].reset_index(drop=True))
+        st.write(f"Top 10 Customers in '{selected_segment}' Segment")
+        st.dataframe(top_customers[['CustomerID', 'Monetary', 'Frequency', 'Recency', 'CustomerAge']].reset_index(drop=True))
 
        # Dictionary of strategies
     segment_strategies = {
@@ -187,13 +199,16 @@ elif page == "📈 Customer Clusters":
     #Filter for Cluster Data
     cluster_data =df[df['Cluster'] == selected_cluster]
     st.subheader(f"Cluster: {selected_cluster}")
+    # Display header with cluster name
+    st.subheader(f"Cluster {selected_cluster}: {cluster_name.get(selected_cluster, 'Unknown')} Customers")
 
     Total_clu_cust = cluster_data['CustomerID'].nunique()
     clu_avg_trxn = cluster_data['Monetary'].mean()
     clu_avg_balance = cluster_data['CustAccountBalance'].mean()
     clu_avg_age = cluster_data['CustomerAge'].mean()
 
-    st.subheader(f"Cluster: {selected_cluster}")
+
+    #st.subheader(f"Cluster: {selected_cluster}")
 
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Total Customers", Total_clu_cust)
