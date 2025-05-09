@@ -4,52 +4,9 @@ import plotly.express as px
 import os
 
 
+
 # Load pre-segmented data
-<<<<<<< HEAD
-df = pd.read_csv("../Data/segmented_customer.csv")
-
-# Get the directory where the current script is located
-current_dir = os.path.dirname(os.path.abspath(__file__))
-
-# Now construct the relative path to your data file
-# Option 1: If your data file is in a Data folder at the same level as your Notebook folder
-data_path = os.path.join(os.path.dirname(os.path.dirname(current_dir)), 'Data', 'segmented_customer.csv')
-
-try:
-    # Try to read the file
-    df = pd.read_csv(data_path)
-    
-    # Your app code continues here...
-    st.title("Bank Customer Segmentation")
-    st.write("Data loaded successfully!")
-    st.dataframe(df.head())
-    
-except FileNotFoundError:
-    st.error(f"Could not find the file at: {data_path}")
-    
-    # Provide debug information
-    st.write("Debugging information:")
-    st.write(f"Current directory: {current_dir}")
-    st.write("Files in current directory:")
-    try:
-        files = os.listdir(current_dir)
-        st.write(files)
-    except Exception as e:
-        st.write(f"Error listing directory: {e}")
-    
-    # Show parent directory
-    parent_dir = os.path.dirname(current_dir)
-    st.write(f"Parent directory: {parent_dir}")
-    st.write("Files in parent directory:")
-    try:
-        files = os.listdir(parent_dir)
-        st.write(files)
-    except Exception as e:
-        st.write(f"Error listing parent directory: {e}")
-=======
-df = pd.read_csv('/Data/segmented_customer.csv')
->>>>>>> 509d82d13d425bf6b4e5eef047b5c9bd8d559fdb
-
+df= pd.read_csv('../Dataset/bank.csv')
 # Sidebar Navigation
 page = st.sidebar.radio("📂 Navigation", ["🏠 Home", "📊 Customer Segments", "📈 Customer Clusters", "👤 Customer Profile"])
 
@@ -82,6 +39,11 @@ if page == "🏠 Home":
     col3.metric("Average Account Balance", f"₹{avg_balance:,.0f}")
     col4.metric("Average Age", f"{avg_age:.1f} yrs")
 
+       #Gender
+    gender_fig = px.pie(df, names='CustGender', title="Gender Distribution",
+        color_discrete_sequence=['purple', 'indianred'])
+    st.plotly_chart(gender_fig, use_container_width=True)
+    
         # Age Distribution Chart using seaborn
     age_fig = px.histogram(
     df, 
@@ -91,18 +53,28 @@ if page == "🏠 Home":
     color_discrete_sequence=['indianred']
     )
     st.plotly_chart(age_fig, use_container_width=True)
-    # Correlation Matrix
-    corr_matrix = df[['Recency', 'Frequency', 'Monetary', 'CustomerAge', 'CustAccountBalance']].corr()
-
-    corr_fig = px.imshow(
-    corr_matrix,
-    text_auto=True,
-    color_continuous_scale='Viridis',
-    title='Correlation Matrix',
-    width=800,
-    height=600
+    oc_df = (
+        df['CustLocation']
+        .value_counts()
+        .nlargest(10)
+        .reset_index()
+        )
+    oc_df.columns=['CustLocation', 'Custcount']
+    
+    oc_fig = px.bar(
+    oc_df,
+     x='CustLocation',
+     y='Custcount',
+    color='CustLocation',
+    color_continuous_scale='plasma',
+        labels={'CustLocation': 'Location', 'Custcount': 'Customer Count'},
+        title="Top 10 Customer Locations"
     )
-    st.plotly_chart(corr_fig, use_container_width=True)
+
+    st.plotly_chart(oc_fig, use_container_width=True)
+    
+     
+
     # --- Segments Page ---
 elif page == "📊 Customer Segments":
     st.title("📊 Customer Segmentation Analysis")

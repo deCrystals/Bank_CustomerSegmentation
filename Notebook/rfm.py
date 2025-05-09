@@ -22,7 +22,7 @@ def calculate_rfm(df):
 
     rfm = rfm.merge(demographics, how='left', on='CustomerID')
 
-    rfm.to_csv('../Data/rfm.csv')
+    #rfm.to_csv('../Data/rfm.csv')
 
 
     return rfm

@@ -1,4 +1,3 @@
-# clustering.py
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
@@ -6,10 +5,11 @@ from sklearn.cluster import KMeans
 from preprocessing import preprocess
 from rfm import calculate_rfm
 from segmentation import segment_customer
+import os
 
 print("Loading Data..........")
 
-df = preprocess('/Data/bank_data_C.csv')
+df = preprocess('../Dataset/bank_data_C.csv')
 
 print("Data loaded successfully")
 
@@ -41,7 +41,8 @@ print(f' The Cluster Scores : \n {cluster_scores}')
 
 print("Clustering Completed Sucessfully")
 
-rfm.to_csv('/Data/segmented_customer.csv')
+os.makedirs('Data', exist_ok=True)
+#rfm.to_csv('../Data/bank.csv')
+rfm.to_csv('../Dataset/bank.csv')
 
-print("Segmented customer data saved to 'Data/segmented_customers.csv")
-
+print("Segmented customer data saved to 'Dataset/bank.csv")

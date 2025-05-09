@@ -19,5 +19,5 @@ def preprocess(file):
     df.loc[df['CustomerDOB'] > df['TransactionDate'], 'CustomerDOB'] -= DateOffset(years=100)
     df['CustomerAge'] =(df['TransactionDate'] - df['CustomerDOB']).dt.days //365
 
-    df.to_csv('../Data/clean_data.csv', index=False)
+    #df.to_csv('../Da/clean_data.csv', index=False)
     return df
