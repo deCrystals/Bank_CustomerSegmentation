@@ -2,7 +2,7 @@
 __pycache__/
 *.py[cod]
 *.pyo
-data/*.csv
+
 # Ignore Jupyter notebook checkpoints
 .ipynb_checkpoints/
 
@@ -27,7 +27,7 @@ venv/
 
 # Ignore data files (optional – remove if you want to track them)
 data/
-*.csv
+
 *.xlsx
 *.json
 
