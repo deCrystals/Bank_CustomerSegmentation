@@ -41,7 +41,7 @@ print(f' The Cluster Scores : \n {cluster_scores}')
 
 print("Clustering Completed Sucessfully")
 
-os.makedirs('Data', exist_ok=True)
+#os.makedirs('Data', exist_ok=True)
 #rfm.to_csv('../Data/bank.csv')
 rfm.to_csv('../Dataset/bank.csv')
 
