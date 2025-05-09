@@ -1,10 +1,50 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import os
 
 
 # Load pre-segmented data
-df = pd.read_csv("/Data/segmented_customer.csv")
+df = pd.read_csv("../Data/segmented_customer.csv")
+
+# Get the directory where the current script is located
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Now construct the relative path to your data file
+# Option 1: If your data file is in a Data folder at the same level as your Notebook folder
+data_path = os.path.join(os.path.dirname(os.path.dirname(current_dir)), 'Data', 'segmented_customer.csv')
+
+try:
+    # Try to read the file
+    df = pd.read_csv(data_path)
+    
+    # Your app code continues here...
+    st.title("Bank Customer Segmentation")
+    st.write("Data loaded successfully!")
+    st.dataframe(df.head())
+    
+except FileNotFoundError:
+    st.error(f"Could not find the file at: {data_path}")
+    
+    # Provide debug information
+    st.write("Debugging information:")
+    st.write(f"Current directory: {current_dir}")
+    st.write("Files in current directory:")
+    try:
+        files = os.listdir(current_dir)
+        st.write(files)
+    except Exception as e:
+        st.write(f"Error listing directory: {e}")
+    
+    # Show parent directory
+    parent_dir = os.path.dirname(current_dir)
+    st.write(f"Parent directory: {parent_dir}")
+    st.write("Files in parent directory:")
+    try:
+        files = os.listdir(parent_dir)
+        st.write(files)
+    except Exception as e:
+        st.write(f"Error listing parent directory: {e}")
 
 # Sidebar Navigation
 page = st.sidebar.radio("📂 Navigation", ["🏠 Home", "📊 Customer Segments", "📈 Customer Clusters", "👤 Customer Profile"])
