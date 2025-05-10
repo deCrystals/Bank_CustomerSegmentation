@@ -1,7 +1,7 @@
 # Optimising Retail Banking Strategies Through RFM-Based Customer Segmentation
 
 ## Project Overview
-**Click here**[Dashboard]https://bank-segmentation.streamlit.app/
+**Click here** [Dashboard] https://bank-segmentation.streamlit.app/
 This project implements a customer segmentation analysis for BankTrust based on RFM (Recency, Frequency, Monetary) methodology. The goal is to segment bank customers based on their transaction behaviors and develop targeted strategies to reduce churn, improve personalization, and optimize marketing efficiency.
 
 ## Features
