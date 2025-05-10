@@ -3,17 +3,7 @@ import pandas as pd
 import plotly.express as px
 import os
 
-
-
-# Load pre-segmented data
-# Get the absolute path to the current directory (where app.py is)
-#base_path = os.path.dirname(__file__)
-
-# Construct the path to the CSV file
-#csv_path = os.path.join(base_path, 'Dataset', 'bank.csv')
-
-#df = pd.read_csv(csv_path)
-df= pd.read_csv('../Dataset/bank.csv')
+df= pd.read_csv('/Dataset/bank.csv')
 # Sidebar Navigation
 page = st.sidebar.radio("📂 Navigation", ["🏠 Home", "📊 Customer Segments", "📈 Customer Clusters", "👤 Customer Profile"])
 
