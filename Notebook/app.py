@@ -3,14 +3,14 @@ import pandas as pd
 import plotly.express as px
 import os
 
-df= pd.read_csv('Dataset/bank.csv')
+df= pd.read_csv('../Dataset/bank.csv')
 # Sidebar Navigation
 page = st.sidebar.radio("📂 Navigation", ["🏠 Home", "📊 Customer Segments", "📈 Customer Clusters", "👤 Customer Profile"])
 
 total_customers = df['CustomerID'].nunique()
 avg_trxn = df['Monetary'].mean()
 avg_balance = df['CustAccountBalance'].mean()
-avg_age = df['CustomerAge'].mean()
+avg_age = df['CustomerAge'].mean().round()
 segments = sorted(df['Segment'].unique())
 
 cluster_name = {
@@ -34,7 +34,7 @@ if page == "🏠 Home":
     col1.metric("Total Customers", total_customers)
     col2.metric("Average Transaction Amount", f"₹{avg_trxn:,.0f}")
     col3.metric("Average Account Balance", f"₹{avg_balance:,.0f}")
-    col4.metric("Average Age", f"{avg_age:.1f} yrs")
+    col4.metric("Average Age", f"{avg_age:,.0f} yrs")
 
        #Gender
     gender_fig = px.pie(df, names='CustGender', title="Gender Distribution",
@@ -90,7 +90,7 @@ elif page == "📊 Customer Segments":
     Total_seg_cust = segment_data['CustomerID'].nunique()
     seg_avg_trxn = segment_data['Monetary'].mean()
     seg_avg_balance = segment_data['CustAccountBalance'].mean()
-    seg_avg_age = segment_data['CustomerAge'].mean()
+    seg_avg_age = segment_data['CustomerAge'].mean().round()
 
     st.subheader(f"Segment: {selected_segment}")
 
@@ -98,7 +98,7 @@ elif page == "📊 Customer Segments":
     col1.metric("Total Customers", Total_seg_cust)
     col2.metric("Average Transaction Amount", f"₹{seg_avg_trxn:,.0f}")
     col3.metric("Average Account Balance", f"₹{seg_avg_balance:,.0f}")
-    col4.metric("Average Age", f"{seg_avg_age:.1f} yrs")
+    col4.metric("Average Age", f"{seg_avg_age:.0f} yrs")
     
     # Columns for gender and age charts
     col1, col2 = st.columns(2)
@@ -218,7 +218,7 @@ elif page == "📈 Customer Clusters":
     Total_clu_cust = cluster_data['CustomerID'].nunique()
     clu_avg_trxn = cluster_data['Monetary'].mean()
     clu_avg_balance = cluster_data['CustAccountBalance'].mean()
-    clu_avg_age = cluster_data['CustomerAge'].mean()
+    clu_avg_age = cluster_data['CustomerAge'].mean().round()
 
 
     #st.subheader(f"Cluster: {selected_cluster}")
@@ -227,7 +227,7 @@ elif page == "📈 Customer Clusters":
     col1.metric("Total Customers", Total_clu_cust)
     col2.metric("Average Transaction Amount", f"₹{clu_avg_trxn:,.0f}")
     col3.metric("Average Account Balance", f"₹{clu_avg_balance:,.0f}")
-    col4.metric("Average Age", f"{clu_avg_age:.1f} yrs")
+    col4.metric("Average Age", f"{clu_avg_age:.0f} yrs")
     
 
     # Columns for gender and age charts
