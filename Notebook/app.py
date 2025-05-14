@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 import os
 
-df= pd.read_csv('../Dataset/bank.csv')
+df= pd.read_csv('Dataset/bank.csv')
 # Sidebar Navigation
 page = st.sidebar.radio("📂 Navigation", ["🏠 Home", "📊 Customer Segments", "📈 Customer Clusters", "👤 Customer Profile"])
 
